@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CheckersGame</string>
+    <string name="score_format">Red: %1$d | Black: %2$d</string>
+    <string name="turn_format">Current Turn: %s</string>
+
+
+</resources>
