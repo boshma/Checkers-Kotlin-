@@ -139,6 +139,12 @@ class CheckersModel {
         return true
     }
 
+    fun hasPieceBecameKing(row: Int, col: Int): Boolean {
+        val piece = board[row][col]
+        return (row == 0 && piece?.player == Player.RED) || (row == boardSize - 1 && piece?.player == Player.BLACK)
+    }
+
+
     fun isGameOver(): Boolean {
         return redPlayerScore == 0 || blackPlayerScore == 0
     }

@@ -49,29 +49,30 @@ class CheckersController(
             if (moveResult) {
                 // Move was successful
                 val isCaptureMove = Math.abs(selectedRow!! - row) == 2
-                if (isCaptureMove && checkersModel.canCapture(row, col)) {
-                    // If the player can capture another piece after a capture, the jump must be made
+                val pieceBecameKing = checkersModel.hasPieceBecameKing(row, col)
+                if (!pieceBecameKing && isCaptureMove && checkersModel.canCapture(row, col)) {
+// If the player can capture another piece after a capture, the jump must be made
                     mustCapture = true
                     selectedRow = row
                     selectedCol = col
                 } else {
-                    // If the player cannot capture another piece or it wasn't a capture move, reset selection and switch the current player
+// If the player cannot capture another piece, it wasn't a capture move, or the piece became king, reset selection and switch the current player
                     selectedRow = null
                     selectedCol = null
                     mustCapture = false
                     checkersModel.currentPlayer =
                         if (checkersModel.currentPlayer == CheckersModel.Player.RED) CheckersModel.Player.BLACK else CheckersModel.Player.RED
                 }
-                // Check if the game is over
+// Check if the game is over
                 if (checkersModel.isGameOver()) {
                     gameOverListener?.invoke(checkersModel.currentPlayer)
                 }
             } else {
-                // Move was not successful, update the selection
+// Move was not successful, update the selection
                 val piece = checkersModel.board[row][col]
                 if (piece != null && piece.player == checkersModel.currentPlayer) {
-                    if (mustCapture &&                 !checkersModel.canCapture(row, col)) {
-                        // If the player must capture a piece and the selected piece cannot capture, ignore the tap
+                    if (mustCapture && !checkersModel.canCapture(row, col)) {
+// If the player must capture a piece and the selected piece cannot capture, ignore the tap
                         return
                     }
                     selectedRow = row
@@ -82,9 +83,10 @@ class CheckersController(
                 }
             }
 
-            // Update the view to reflect the changes in the model
+// Update the view to reflect the changes in the model
             checkersBoardView.invalidate()
         }
+
     }
 
 

@@ -103,7 +103,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showGameOverDialog() {
-        val winner = checkersController.checkersModel.currentPlayer
+        val winner = if (checkersController.checkersModel.currentPlayer == CheckersModel.Player.RED) {
+            CheckersModel.Player.BLACK
+        } else {
+            CheckersModel.Player.RED
+        }
         val winnerName = if (winner == CheckersModel.Player.RED) "Red" else "Black"
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Game Over")
